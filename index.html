@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Позитивный смайлик от школы «ОШ Нур» ✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 45%, #a1c4fd 100%);
+      background-size: 200% 200%;
+      animation: bgShift 12s ease infinite;
+      overflow-x: hidden;
+      padding: 16px;
+      color: #2d3436;
+    }
+
+    @keyframes bgShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .sound-btn {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      background: rgba(255, 255, 255, 0.85);
+      border: none;
+      border-radius: 50px;
+      padding: 10px 14px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      transition: transform 0.2s;
+      z-index: 20;
+    }
+
+    .sound-btn:active {
+      transform: scale(0.92);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border-radius: 32px;
+      padding: 26px 22px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.14);
+      position: relative;
+      z-index: 5;
+    }
+
+    .school-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #fff3bf, #ffe066);
+      color: #7c4d00;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 10px rgba(255, 193, 7, 0.25);
+      line-height: 1.35;
+    }
+
+    .school-greeting {
+      font-size: 15px;
+      line-height: 1.45;
+      color: #495057;
+      background: #f8f9fa;
+      border-left: 4px solid #ff922b;
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .school-greeting strong {
+      color: #e8590c;
+    }
+
+    .smiley-stage {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 16px;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .smiley-stage:hover {
+      transform: scale(1.05);
+    }
+
+    .smiley-stage.bounce {
+      animation: bounceSpin 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes bounceSpin {
+      0% { transform: scale(1) rotate(0deg); }
+      35% { transform: scale(1.18) rotate(-8deg); }
+      70% { transform: scale(0.95) rotate(8deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .smiley-face {
+      width: 164px;
+      height: 164px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff176, #ffd54f 60%, #ffb300 100%);
+      box-shadow:
+        0 12px 28px rgba(255, 179, 0, 0.45),
+        inset 0 -8px 16px rgba(245, 127, 23, 0.35),
+        inset 0 8px 14px rgba(255, 255, 255, 0.75);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .eyes {
+      display: flex;
+      gap: 34px;
+      margin-top: -12px;
+      margin-bottom: 12px;
+      height: 38px;
+      align-items: center;
+    }
+
+    .eye {
+      width: 28px;
+      height: 34px;
+      background: #fff;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      transition: transform 0.15s;
+    }
+
+    .pupil {
+      width: 15px;
+      height: 15px;
+      background: #2d3436;
+      border-radius: 50%;
+      position: relative;
+      transition: transform 0.08s ease-out;
+    }
+
+    .pupil::after {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 3px;
+    }
+
+    .eye.blink {
+      transform: scaleY(0.1);
+    }
+
+    .eye-symbol {
+      font-size: 32px;
+      line-height: 1;
+      display: none;
+    }
+
+    .smiley-face.mode-hearts .eye,
+    .smiley-face.mode-stars .eye,
+    .smiley-face.mode-cool .eye {
+      display: none;
+    }
+
+    .smiley-face.mode-hearts .eye-heart,
+    .smiley-face.mode-stars .eye-star,
+    .smiley-face.mode-cool .eye-cool {
+      display: block;
+    }
+
+    .smiley-face.mode-wink .eye.right {
+      height: 6px;
+      background: #5d4037;
+      border-radius: 6px;
+    }
+
+    .smiley-face.mode-wink .eye.right .pupil {
+      display: none;
+    }
+
+    .cheeks {
+      position: absolute;
+      top: 86px;
+      width: 126px;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .cheek {
+      width: 24px;
+      height: 14px;
+      background: rgba(255, 107, 107, 0.45);
+      border-radius: 50%;
+      filter: blur(2px);
+    }
+
+    .mouth {
+      width: 68px;
+      height: 34px;
+      border-bottom: 7px solid #5d4037;
+      border-radius: 0 0 40px 40px;
+      transition: all 0.2s ease;
+    }
+
+    .smiley-face.laughing .mouth {
+      width: 72px;
+      height: 38px;
+      background: #c0392b;
+      border: 4px solid #5d4037;
+      border-radius: 12px 12px 42px 42px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .smiley-face.laughing .mouth::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 22px;
+      background: #ff7675;
+      border-radius: 50%;
+    }
+
+    .wish-box {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #e3fafc, #f3f0ff);
+      border-radius: 20px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #364fc7;
+      line-height: 1.35;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s;
+    }
+
+    .wish-box.pop {
+      animation: popText 0.35s ease;
+    }
+
+    @keyframes popText {
+      0% { transform: scale(0.93); opacity: 0.6; }
+      60% { transform: scale(1.04); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    .action-btn {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 16px 20px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(135deg, #ff922b, #ff6b6b);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .action-btn:active {
+      transform: translateY(2px) scale(0.98);
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.35);
+    }
+
+    .counter-pill {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff9db;
+      border: 2px solid #ffe066;
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #862e08;
+    }
+
+    canvas#confettiCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 30;
+    }
+  </style>
+</head>
+<body>
+  <button class="sound-btn" id="soundToggle" title="Включить или выключить звук">🔊</button>
+  <canvas id="confettiCanvas"></canvas>
+
+  <main class="card">
+    <div class="school-badge">🏫 Школа «ОШ Нур»</div>
+
+    <p class="school-greeting">
+      От имени школы <strong>«ОШ Нур»</strong> желаем вам удачи, ярких открытий и отличного настроения каждый день! ✨
+    </p>
+
+    <div class="smiley-stage" id="smileyStage" role="button" tabindex="0" aria-label="Нажми на смайлик">
+      <div class="smiley-face" id="smileyFace">
+        <div class="eyes">
+          <div class="eye left"><div class="pupil"></div></div>
+          <div class="eye right"><div class="pupil"></div></div>
+          <span class="eye-symbol eye-heart">❤️</span>
+          <span class="eye-symbol eye-heart">❤️</span>
+          <span class="eye-symbol eye-star">⭐</span>
+          <span class="eye-symbol eye-star">⭐</span>
+          <span class="eye-symbol eye-cool">😎</span>
+        </div>
+        <div class="cheeks">
+          <div class="cheek"></div>
+          <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+      </div>
+    </div>
+
+    <div class="wish-box" id="wishText">
+      Нажми на смайлик или кнопку ниже, чтобы поймать заряд позитива! 🌟
+    </div>
+
+    <button class="action-btn" id="cheerBtn">Получить заряд улыбки! 😄</button>
+
+    <div class="counter-pill">
+      <span>Собрано улыбок:</span>
+      <span id="smileCount">0</span> ✨
+    </div>
+  </main>
+
+  <script>
+    const wishes = [
+      "От имени школы «ОШ Нур» желаем тебе удачи и солнечного настроения! ☀️",
+      "У тебя сегодня всё обязательно получится — верь в себя! 🚀",
+      "Твой ум — настоящий суперкомпьютер! Вперёд к новым знаниям! 💡",
+      "Команда «ОШ Нур» гордится тобой! Пусть день принесёт только пятёрки и радость! 🎓",
+      "Улыбнись! Твоя улыбка делает этот мир светлее! 😊",
+      "Любая сложная задачка сдаётся перед твоей смекалкой! 🧩",
+      "Пусть каждый урок сегодня будет интересным и лёгким! 📚✨",
+      "Ты способен на великие открытия — просто сделай первый шаг! 🌟",
+      "Лови волну вдохновения, бодрости и классных идей от «ОШ Нур»! 🌊",
+      "Пусть рядом всегда будут верные друзья и поддержка! 🤝💛"
+    ];
+
+    const modes = ["", "mode-wink", "mode-hearts", "mode-stars", "mode-cool"];
+
+    const smileyStage = document.getElementById("smileyStage");
+    const smileyFace = document.getElementById("smileyFace");
+    const wishText = document.getElementById("wishText");
+    const cheerBtn = document.getElementById("cheerBtn");
+    const smileCountEl = document.getElementById("smileCount");
+    const soundToggle = document.getElementById("soundToggle");
+    const pupils = document.querySelectorAll(".pupil");
+    const eyes = document.querySelectorAll(".eye");
+
+    let count = 0;
+    let lastWishIndex = -1;
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    soundToggle.addEventListener("click", () => {
+      soundEnabled = !soundEnabled;
+      soundToggle.textContent = soundEnabled ? "🔊" : "🔇";
+    });
+
+    function playTone(freq, duration, type = "sine", delay = 0) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+        gain.gain.setValueAtTime(0.14, audioCtx.currentTime + delay);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + delay);
+        osc.stop(audioCtx.currentTime + delay + duration);
+      } catch (e) {}
+    }
+
+    function playHappySound(isMilestone) {
+      if (isMilestone) {
+        playTone(523.25, 0.14, "triangle", 0);
+        playTone(659.25, 0.14, "triangle", 0.12);
+        playTone(783.99, 0.16, "triangle", 0.24);
+        playTone(1046.5, 0.35, "triangle", 0.36);
+      } else {
+        playTone(587.33, 0.1, "sine", 0);
+        playTone(880, 0.16, "sine", 0.08);
+      }
+    }
+
+    // Слежение глазами за курсором или касанием
+    function moveEyes(clientX, clientY) {
+      eyes.forEach((eye, idx) => {
+        const rect = eye.getBoundingClientRect();
+        if (rect.width === 0) return;
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const angle = Math.atan2(clientY - centerY, clientX - centerX);
+        const distance = Math.min(5, Math.hypot(clientX - centerX, clientY - centerY) / 25);
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+        pupils[idx].style.transform = `translate(${x}px, ${y}px)`;
+      });
+    }
+
+    window.addEventListener("mousemove", (e) => moveEyes(e.clientX, e.clientY));
+    window.addEventListener("touchmove", (e) => {
+      if (e.touches[0]) moveEyes(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+
+    // Периодическое моргание
+    setInterval(() => {
+      if (smileyFace.className === "smiley-face") {
+        eyes.forEach(eye => eye.classList.add("blink"));
+        setTimeout(() => eyes.forEach(eye => eye.classList.remove("blink")), 150);
+      }
+    }, 3600);
+
+    // Конфетти
+    const canvas = document.getElementById("confettiCanvas");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function spawnConfetti(amount = 45) {
+      const colors = ["#ff6b6b", "#ffd43b", "#51cf66", "#339af0", "#cc5de8", "#ff922b"];
+      for (let i = 0; i < amount; i++) {
+        particles.push({
+          x: canvas.width / 2 + (Math.random() - 0.5) * 140,
+          y: canvas.height * 0.42,
+          vx: (Math.random() - 0.5) * 13,
+          vy: -Math.random() * 11 - 4,
+          size: Math.random() * 8 + 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rot: Math.random() * 360,
+          vRot: (Math.random() - 0.5) * 12,
+          life: 1
+        });
+      }
+    }
+
+    function updateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles = particles.filter(p => p.life > 0);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.35;
+        p.rot += p.vRot;
+        p.life -= 0.015;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rot * Math.PI) / 180);
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.65);
+        ctx.restore();
+      }
+      requestAnimationFrame(updateConfetti);
+    }
+    updateConfetti();
+
+    function triggerJoy() {
+      count++;
+      smileCountEl.textContent = count;
+
+      let idx;
+      do {
+        idx = Math.floor(Math.random() * wishes.length);
+      } while (idx === lastWishIndex && wishes.length > 1);
+      lastWishIndex = idx;
+
+      wishText.textContent = wishes[idx];
+      wishText.classList.remove("pop");
+      void wishText.offsetWidth;
+      wishText.classList.add("pop");
+
+      smileyStage.classList.remove("bounce");
+      void smileyStage.offsetWidth;
+      smileyStage.classList.add("bounce");
+
+      const randomMode = modes[Math.floor(Math.random() * modes.length)];
+      smileyFace.className = "smiley-face laughing" + (randomMode ? " " + randomMode : "");
+
+      const isMilestone = count === 10 || count === 25 || count % 50 === 0;
+      playHappySound(isMilestone);
+      spawnConfetti(isMilestone ? 120 : 35);
+
+      clearTimeout(smileyFace._resetTimer);
+      smileyFace._resetTimer = setTimeout(() => {
+        smileyFace.className = "smiley-face";
+      }, 1800);
+    }
+
+    smileyStage.addEventListener("click", triggerJoy);
+    cheerBtn.addEventListener("click", triggerJoy);
+  </script>
+</body>
+</html>
